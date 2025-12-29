@@ -87,7 +87,7 @@ export default function ChatClient({
                 className={`max-w-md px-4 py-2 rounded-2xl text-sm
                 ${
                   m.isOwn
-                    ? "ml-auto bg-slate-900 text-white"
+                    ? "ml-auto bg-blue-500 text-white"
                     : "mr-auto bg-white border"
                 }`}
               >
@@ -109,7 +109,7 @@ export default function ChatClient({
           />
           <button
             onClick={sendMessage}
-            className="px-5 rounded-xl bg-slate-900 text-white"
+            className="px-5 rounded-xl bg-blue-500 text-white"
           >
             ارسال
           </button>

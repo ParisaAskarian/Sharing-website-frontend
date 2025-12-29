@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 type Listing = {
   id: number;
@@ -125,6 +126,12 @@ export default function MyListingsPage() {
               >
                 حذف
               </button>
+              <Link
+                href={`/profile/listings/${listing.id}`}
+                className="text-sm text-blue-600 hover:underline"
+              >
+             مشاهده
+              </Link>
             </div>
           </div>
         ))}

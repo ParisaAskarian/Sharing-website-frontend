@@ -25,6 +25,7 @@ export default function ProfilePage() {
         <InfoItem label="ایمیل" value="sara@email.com" />
         <InfoItem label="شماره تماس" value="09120000000" />
         <InfoItem label="تاریخ عضویت" value="1402/05/12" />
+        <InfoItem label="آدرس" value="تهران" />
       </section>
 
       {/* My Listings */}
