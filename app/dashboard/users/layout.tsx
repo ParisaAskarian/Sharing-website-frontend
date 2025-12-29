@@ -21,7 +21,7 @@ export default function ProfileLayout({
         className={`block w-full text-right px-4 py-2 rounded-lg transition
           ${
             active
-              ? "bg-slate-900 text-white"
+              ? "bg-blue-500 text-white"
               : "hover:bg-slate-100 text-slate-700"
           }`}
       >

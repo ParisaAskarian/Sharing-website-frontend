@@ -12,14 +12,14 @@ type Listing = {
 };
 
 export default function ListingsPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const listings: Listing[] = [
     {
       id: 1,
       title: "دوربین DSLR Canon",
       dailyFee: 150000,
-      category: "دوربین",
+      category: "الکترونیک",
       owner: "علی محمدی",
       status: "available",
     },
@@ -27,100 +27,83 @@ export default function ListingsPage() {
       id: 2,
       title: "پلی‌استیشن 5",
       dailyFee: 200000,
-      category: "کنسول بازی",
+      category: "بازی و سرگرمی",
       owner: "محمد رضایی",
+      status: "available",
+    },
+    {
+      id: 3,
+      title: "دریل برقی",
+      dailyFee: 80000,
+      category: "ابزار",
+      owner: "رضا احمدی",
       status: "unavailable",
     },
   ];
+
+  // ⭐ فیلتر اصلی
+  const filteredListings =
+    selectedCategory === "all"
+      ? listings
+      : listings.filter(
+          (listing) => listing.category === selectedCategory
+        );
 
   return (
     <div className="bg-white">
       {/* Header */}
       <header className="border-b">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-6 py-4">
           <h1 className="text-2xl font-semibold">آگهی‌ها</h1>
-
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="sm:hidden text-xl"
-          >
-            ☰
-          </button>
         </div>
-
-        {/* Filters (Mobile) */}
-        {menuOpen && (
-          <div className="border-t sm:hidden px-6 py-4 space-y-3">
-            <select className="w-full border rounded-lg px-3 py-2">
-              <option>همه دسته‌بندی‌ها</option>
-            </select>
-            <select className="w-full border rounded-lg px-3 py-2">
-              <option>همه وضعیت‌ها</option>
-            </select>
-          </div>
-        )}
       </header>
 
-      {/* Main */}
       <main className="my-8">
         <div className="container mx-auto px-6 flex gap-6">
-          {/* Filters (Desktop) */}
-          <aside className="hidden sm:block w-64 space-y-4">
-            <h2 className="font-semibold">فیلترها</h2>
+          {/* Filters */}
+          <aside className="w-64 space-y-4">
+            <h2 className="font-semibold">دسته‌بندی</h2>
 
-            <select className="w-full border rounded-lg px-3 py-2">
-              <option>همه دسته‌بندی‌ها</option>
-            </select>
-
-            <select className="w-full border rounded-lg px-3 py-2">
-              <option>همه وضعیت‌ها</option>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2"
+            >
+              <option value="all">همه دسته‌بندی‌ها</option>
+              <option value="الکترونیک">الکترونیک</option>
+              <option value="بازی و سرگرمی">بازی و سرگرمی</option>
+              <option value="ابزار">ابزار</option>
             </select>
           </aside>
 
-          {/* Listings Grid */}
+          {/* Listings */}
           <section className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 flex-1">
-            {listings.map((listing) => (
-              <div
-                key={listing.id}
-                className="rounded-2xl shadow overflow-hidden bg-white"
-              >
-                <div className="h-48 bg-slate-200" />
+            {filteredListings.length === 0 ? (
+              <p className="text-slate-500">
+                آگهی‌ای برای این دسته‌بندی پیدا نشد
+              </p>
+            ) : (
+              filteredListings.map((listing) => (
+                <div
+                  key={listing.id}
+                  className="rounded-2xl shadow bg-white overflow-hidden"
+                >
+                  <div className="h-48 bg-slate-200" />
 
-                <div className="p-5 space-y-1">
-                  <h3 className="font-semibold">{listing.title}</h3>
+                  <div className="p-5 space-y-2">
+                    <h3 className="font-semibold">{listing.title}</h3>
 
-                  <p className="text-sm text-slate-500">
-                    دسته‌بندی: {listing.category}
-                  </p>
+                    <p className="text-sm text-slate-500">
+                      دسته‌بندی: {listing.category}
+                    </p>
 
-                  <p className="text-sm text-slate-500">
-                    مالک: {listing.owner}
-                  </p>
-
-                  <div className="flex justify-between items-center mt-3">
-                    <span className="font-bold">
+                    <p className="font-bold">
                       {listing.dailyFee.toLocaleString()} تومان / روز
-                    </span>
-
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        listing.status === "available"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-slate-200 text-slate-600"
-                      }`}
-                    >
-                      {listing.status === "available"
-                        ? "در دسترس"
-                        : "ناموجود"}
-                    </span>
+                    </p>
                   </div>
-
-                  <button className="mt-3 w-full rounded-xl bg-slate-900 text-white py-2 hover:bg-slate-800">
-                    مشاهده جزئیات
-                  </button>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </section>
         </div>
       </main>
